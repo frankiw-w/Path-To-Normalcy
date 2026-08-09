@@ -12,8 +12,15 @@ Path to normalcy lets you draw directly to a bump map using a Curve-object, wrap
 - We got draw modes, Stretch and Stamp! Draw continuous seams or stamp buttons, or maybe both?
 - Bake straight to a normal map when you're done, or keep it as bump.
 
+# Creators note
+I built this for painting seams, stichting and other details directly to a normalmap, without having to deal with Blenders native texture paint or baking from hi-mesh. I guess you can do other stuff with it too but keep in mind it was solely built and tested for this purpose. 
+
+You could possibly use the same output to use as mask for other layers but I haven't dabbled with that yet. 
 
 # IMPORTANT READ BEFORE USE
+- Must have UVs! 
+- Must set up material with bump map! (highly recommend pairing with Ucupaint)
+- Strokes over UV-seams will look like shit!
 - Use Shrinkwrap modifier on curve object, curve has to lie against the surface!
 - Curve must be a plain flat wire, no Bevel, Extrude, or Fill, or results are undefined.
 - Settings are local to each curve!
