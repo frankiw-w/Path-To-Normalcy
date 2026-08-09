@@ -1,26 +1,27 @@
-Paint to bump/normal maps directly from the viewport using Curve-objects to define your strokes. 
+An easy path to painting details with curves!
+
+Path to normalcy lets you draw directly to a bump map using a Curve-object, wrap a curve onto your mesh draw a path where you want to paint and draw!
 
 # Features
-- One click draw onto UV coordinates, no more camera projection bullshit! 
+- One click draw using calculated UV coordinates from Curve-object, no more camera projection bullshit!
 - Per Curve-object setting, settings are local to individual Curves.
-- Use an image or color ramp as brush, infinate possiblities with images or use a simple preset color ramp. 
-- Set Blend-mode and Direction, additive, subtractive, min, max and bulldozer in either direction or BOTH! 
+- Use an image or color ramp as brush, infinite possibilities with images or use a simple preset color ramp.
+- Set Blend-mode and Direction: additive, bulldozer (mix), min, max, average, or greatest deviation, in either direction or BOTH!
 - Draw one or several curves with one click!
-- Draw modes, Stretch and Stamp! Draw continuous seams or stamp buttons, or maybe both?
+- We got draw modes, Stretch and Stamp! Draw continuous seams or stamp buttons, or maybe both?
 
 
-# IMPORTANT 
-- Use Shrinkwrap modifier on curve object, curve has to lie agianst the surface! 
-- Settings are local to each curve! 
-- Image must be non-color! It will warn you but still draw. 
-- When using Raise or Indent 0 = 0.5 and 1 = 1, mapped to 0.5 midpoint. When using mode "Both" midpoint is simply 0.5. 
+# IMPORTANT READ BEFORE USE
+- Use Shrinkwrap modifier on curve object, curve has to lie against the surface!
+- Curve must be a plain flat wire, no Bevel, Extrude, or Fill, or results are undefined.
+- Settings are local to each curve!
+- Image must be set to non-color inside Blender! There's a check but it will still draw.
+- "Direction" remaps the source values accordingly:
+   - Raise and Indent each remap the source to one half of the 0-1 range: 0.5-1 for Raise, 0-0.5 for Indent.
+   - 'Both' uses the full range 0-1
 
 
-
-
-
-
-# Path to Normalcy: User Guide
+# User Guide
 
 ## Quick Start
 
@@ -30,52 +31,42 @@ Paint to bump/normal maps directly from the viewport using Curve-objects to defi
    tends to track the surface more cleanly than Nearest Surface Point).
 3. Select the curve, open the **P2N** tab in the N-panel.
 4. Set **Target** (the mesh) and **Image** (the texture you're painting
-   into, set to **Non-Color** colorspace).
+   onto, your bump map).
 5. Pick a **Source**: a **Color Ramp** (click Presets for an instant
    shape) or an **Image**.
 6. Hit **Draw**.
 
-That's it for a single stroke. For more detail, add another curve and
-repeat, one curve per detail is the intended workflow, not one curve
-doing everything.
+The intended workflow is one curve for each stroke/detail, NOT built to use the same Curve for all strokes! Since settings are per object you can duplicate curves to copy settings or create a new curve for defaults.
 
-## The Panel, Briefly
+## The Panel
 
-- **Curve Fidelity**: how tightly bends get traced. Leave it alone
+- **Curve Fidelity**: Resample distance or practically, how tightly bends get traced. Leave alone
   unless a sharp corner looks faceted.
 - **Cap Style**: Round or Flat ends.
-- **Relax Curve** *(collapsed by default)*: turn on if your curve looks
-  jittery, usually from Shrinkwrap. Not needed otherwise.
 - **Stretch / Stamp**: Stretch maps your profile once along the whole
   curve. Stamp repeats it at even spacing (rivets, stitching, bolts).
-- **Profile box**: your cross-section shape and its settings (Half
-  Width, Strength, Direction, Blend, and so on).
-- **Blur Pass** *(collapsed by default)*: optional softening after
-  painting. Leave off unless edges look too hard.
+- **Color Ramp/Image**: Chooses source of your cross-section profile.
+- **Settings Frame**: Holds the settings that define your profile from Source: Half Width, Strength, Edge Feather, Quality, Direction, and Blend.
+- **Blur Pass** *(collapsed by default)*: Optional post-processing pass, applies blur smoothing along the painted area. Comes in 'Uniform' and 'Edges only' flavors, does what it says on the box.
+- **Relax Curve** *(collapsed by default)*: Should only be used if your shrinkwrap modifier produces a jittery, segmented or an otherwise non-smooth curve. Applies a Laplacian smoothing on the curve before sampling.
 
-## Choosing a Profile
+## Choosing Profile Source
 
-- **Color Ramp**: fastest way to get a real result. Click **Presets**
-  for a ready-made shape, or build your own. **Mapping: Mirror** mirrors
-  one side you design across both; **Full Width** lets each side differ.
-- **Image**: use for anything a ramp can't do, asymmetric shapes,
-  texture detail, or repeating patterns along the curve's length. Must
-  also be **Non-Color** colorspace. If it uses transparency, turn on
-  **Use Alpha**, and make sure the fully-transparent areas are genuinely
-  transparent, not just faded, or you'll get artifacts.
+- **Color Ramp**: Uses a color ramp to define profile, includes a few presets to get you started. Can be mapped to Full Width or to be Mirrored from centerline.
+- **Image**: Uses a grayscale image for sampling, must be set to non-color colorspace inside Blender.
+
+- **Midpoints**: See the Direction remapping note above before creating your own image, using the wrong neutral value there is the most common mistake.
 
 ## Raise, Indent, or Both?
 
 **Direction** controls which way your profile pushes:
 
-- **Raise**: always bumps up. Simplest option for most detail.
+- **Raise**: always bumps up.
 - **Indent**: always carves in.
 - **Both**: lets one profile do both at once (values above the middle
   raise, below it indent). Unlocks a few extra Blend Mode options too.
 
-Same profile, either direction, no need to make two versions of it.
-
-## Stamp Mode Cheat Sheet
+## Stamp Mode
 
 - **Spacing** = distance between repeats.
 - **Stamp Size** = how much of that spacing your shape actually fills.
@@ -85,25 +76,12 @@ Same profile, either direction, no need to make two versions of it.
 
 ## Workflow Tips
 
-- **One curve per detail.** Each curve remembers its own settings
-  completely, hide the ones you're not working on and come back to them
-  later without losing anything.
+- **One curve per stroke.** Settings are local and saved on the Curve object, hide the ones you're not working on and come back to them later without losing anything.
 - **Redraw** (next to Draw) re-applies a curve's last stroke with
   current settings, handy after nudging the curve or tweaking a value.
 - **Paint Selected / Undo Selected** show up automatically whenever more
   than one curve is selected, letting you refresh your whole set of
   strokes in one click before baking.
-- **Undo** here is separate from Blender's own Ctrl+Z. Use the addon's
-  Undo button to undo a paint stroke specifically.
+- **Undo** here is separate from Blender's own Ctrl+Z. Mixing this with Blender's native Ctrl+Z can leave the two undo histories out of sync, when in doubt, use the addon's own Undo button.
 - When you're happy, **bake to a normal map** for export, or leave it as
   a bump map for a purely in-Blender look.
-
-## Common Gotchas
-
-- Forgot **Non-Color** on an image? Colors will look subtly wrong;
-  you'll get a warning when you paint, but it's easy to miss.
-- Curve has **Bevel/Extrude/Fill** turned on? Don't, this addon expects
-  a plain flat curve with no thickness.
-- Nothing painting? Check **Target**, **Image**, and (for Color Ramp)
-  that you've actually added a ramp, Draw stays disabled until all
-  three are set.
