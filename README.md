@@ -1,6 +1,6 @@
 An easy path to painting details with curves!
 
-Path to normalcy lets you draw directly to a bump map using a Curve-object, wrap a curve onto your mesh draw a path where you want to paint and draw!
+Path to normalcy lets you draw directly to a bump map using a Curve-object, wrap a curve onto your mesh draw a path where you want to paint and paint!
 
 # Features
 - One click draw using calculated UV coordinates from Curve-object, no more camera projection bullshit!
