@@ -1,0 +1,17 @@
+schema_version = "1.0.0"
+
+id = "path_to_normalcy"
+version = "1.1.6"
+name = "Path to Normalcy"
+tagline = "Paint repeating or continuous detailing directly onto heightmap using a curve-object."
+maintainer = "Frank William"
+website = "https://github.com/frankiw-w/Path-To-Normalcy"
+type = "add-on"
+
+tags = ["Paint", "3D View"]
+
+blender_version_min = "5.2.0"
+
+license = [
+  "SPDX:PolyForm-Noncommercial-1.0.0",
+]
